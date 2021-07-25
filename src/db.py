@@ -1,23 +1,6 @@
 import itertools
 
-store = [
-    {"user": 1, "score": 1220, "level": 3},
-    {"user": 2, "score": 1500, "level": 3},
-    {"user": 3, "score": 1500, "level": 3},
-    {"user": 4, "score": 1500, "level": 3},
-    {"user": 5, "score": 1220, "level": 3},
-    {"user": 6, "score": 1500, "level": 3},
-    {"user": 7, "score": 1500, "level": 3},
-    {"user": 8, "score": 1500, "level": 3},
-    {"user": 9, "score": 1220, "level": 3},
-    {"user": 10, "score": 1500, "level": 3},
-    {"user": 11, "score": 1500, "level": 3},
-    {"user": 12, "score": 1500, "level": 3},
-    {"user": 13, "score": 1220, "level": 3},
-    {"user": 14, "score": 1500, "level": 3},
-    {"user": 15, "score": 1500, "level": 3},
-]
-# I NEED TO ADD SCORE MATCH BY USER TO ASCENDING
+store = []
 
 
 def check_rank(score: int, rank: int = 15):
@@ -37,14 +20,6 @@ def peek(iterable):
     except StopIteration:
         return None
     return first, itertools.chain([first], iterable)
-
-
-def get_high_score_list(level_id: int, db: list):
-    queryset = (
-        {"user": q["user"], "score": q["score"]} for q in db if level_id == q["level"]
-    )
-    queryset = sorted(queryset, key=lambda q: q["score"], reverse=True)
-    return str(queryset)
 
 
 def add_scores(level_id: int, score: int, user_id: int, db: list):
@@ -86,3 +61,11 @@ def add_scores(level_id: int, score: int, user_id: int, db: list):
                     "Success": f"User {user_id} did not make the top 15 on level {level_id}"
                 }
             )
+
+
+def get_high_score_list(level_id: int, db: list):
+    queryset = (
+        {"user": q["user"], "score": q["score"]} for q in db if level_id == q["level"]
+    )
+    queryset = sorted(queryset, key=lambda q: (-q["score"], q["user"]))
+    return str(queryset)
