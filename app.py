@@ -8,8 +8,6 @@ from src.handler import HTTPRequestHandler
 class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread"""
 
-    daemon_threads = True
-
 
 def main():
     PORT = 8080
